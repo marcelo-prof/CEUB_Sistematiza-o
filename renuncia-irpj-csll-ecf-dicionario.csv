@@ -1,0 +1,32 @@
+﻿Campo|Nome do Campo|Unidade de Medida|Valores Permitidos|Descrição;;;;;;;;
+cnpj|CNPJ|Alfanumérico|00.000.000/0000 - zz.zzz.zzz/zzzz|CNPJ: Número identificador do contribuinte (CNPJ da matriz ou estabelecimento para pessoa jurídica);;;;;;;;
+razao_social|Razão Social|Texto|-|Nome do contribuinte (pessoa jurídica);;;;;;;;
+cod_scp|Código da Sociedade em Conta de Participação|Texto|-|Código SCP quando se tratar de uma escrituração de Sociedade em Conta de Participação declarada pelo sócio ostensivo (CNPJ). A partir do ano-calendário 2017, trata-se do CNPJ da SCP;;;;;;;;
+dt_ini|Data Inicial da ECF|dd/mm/aaaa|1-31/1-12/2024-9999|Data inicial da ECF;;;;;;;;
+dt_fin|Data Final da ECF|dd/mm/aaaa|1-31/1-12/2024-9999|Data final da ECF;;;;;;;;
+"forma_trib|Forma de Tributação da ECF|Texto|""Lucro Real"; Lucro Real/Arbitrado; Lucro Presumido/Real; Lucro Presumido/Real/Arbitrado; Lucro Presumido; Lucro Arbitrado; Lucro Presumido/Arbitrado; Imune do IRPJ;" Isenta do IRPJ""|Forma de tributação da ECF"
+"forma_apur|Forma de Apuração da ECF|Texto|""Anual";"Trimestral""|Forma de apuração da ECF";;;;;;;
+"qualif_pj|Qualificação da Pessoa Jurídica|Texto|""PJ em Geral"; PJ Componente do Sistema Financeiro;" Sociedades Seguradoras, de Capitalização ou Entidade Aberta de Previdência Complementar""|Qualificação da pessoa jurídica";;;;;;
+"sit_especial|Situação Especial|Texto|""Normal (Sem ocorrência de situação especial ou evento)"; Extinção; Fusão; Incorporação \ Incorporada; Incorporação \ Incorporadora; Cisão Total; Cisão Parcial; Desenquadramento de Imune/Isenta;" Inclusão no Simples Nacional""|Situação especial"
+cnae|CNAE|Numérico|0000000 - 9999999|Atividade econômica principal do declarante conforme Cadastro Nacional de Atividades Econômicas;;;;;;;;
+cod_nat|Código da Natureza Jurídica|Numérico|0000-9999|Código da natureza jurídica do declarante conforme Tabela de Natureza Jurídica ;;;;;;;;
+horario_eleitoral_deducao_lalur|Horário Eleitoral|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão do Horário Eleitoral;;;;;;;;
+prouni_universidade_para_todos|Prouni - Programa Universidade para Todos|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão do Prouni - Programa Universidade para Todos;;;;;;;;
+sudam_sudene_isencao_proj_ind_agric|Sudam/Sudene - Isenção Projeto Industrial / Agrícola|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão do Sudam/Sudene - Isenção Projeto Industrial /Agrícola;;;;;;;;
+sudam_sudene_isencao_proj_tec_dig|Sudam/Sudene - Isenção Projeto Tecnologia Digital|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão do Sudam/Sudene - Isenção Projeto Tecnologia Digital;;;;;;;;
+sudam_sudene_red_escal_setor_prior_proj_ind_agric|Sudam/Sudene - Redução Escalonada Setor Prioritário, Projeto Industrial / Agrícola|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão do Sudam/Sudene - Redução Escalonada Setor Prioritário, Projeto Industrial / Agrícola;;;;;;;;
+finor|Finor - Fundo de Investimentos do Nordeste|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão do Finor - Fundo de Investimentos do Nordeste;;;;;;;;
+finam|Finam - Fundo de Investimentos da Amazônia|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão do Finam - Fundo de Investimentos da Amazônia;;;;;;;;
+pronac_deducao_ir|Pronac - Programa Nacional de Apoio à Cultura - Dedução do Imposto de Renda IR|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão do Pronac - Programa Nacional de Apoio à Cultura - Dedução do Imposto de Renda IR;;;;;;;;
+pat_deducao_ir|Programa de Alimentação do Trabalhador IR|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão do Programa de Alimentação do Trabalhador IR;;;;;;;;
+atividade_audiov_deducao_ir|Atividade Audiovisual - Dedução do Imposto de Renda IR|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão da Atividade Audiovisual - Dedução do Imposto de Renda IR;;;;;;;;
+fundos_direitos_crianca_adolescente|Fundos de Direitos da Criança e do Adolescente|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão dos Fundos de Direitos da Criança e do Adolescente;;;;;;;;
+fundos_idoso|Fundos do Idoso IR|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão dos Fundos do Idoso IR;;;;;;;;
+incentivo_desporto|Incentivo ao Desporto IR|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão do Incentivo ao Desporto IR;;;;;;;;
+pronon_deducao_ir|Pronon - Programa Nacional de Apoio à Atenção Oncológica IR|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão do Pronon - Programa Nacional de Apoio à Atenção Oncológica IR;;;;;;;;
+pronas_pcd_deducao_ir|Pronas/PCD - Programa Nacional de Apoio à Atenção da Saúde da Pessoa com Deficiência IR|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão do Pronas/PCD - Programa Nacional de Apoio à Atenção da Saúde da Pessoa com Deficiência IR;;;;;;;;
+empresa_cidada_deducao_ir|Empresa Cidadã IR|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão da Empresa Cidadã IR;;;;;;;;
+rota_2030_deducao_ir|Programa Rota 2030 IR|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão do Programa Rota 2030 IR;;;;;;;;
+prouni_deducao_csll|Prouni - Programa Universidade para Todos CSLL|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão do Prouni - Programa Universidade para Todos CSLL;;;;;;;;
+rota_2030_deducao_csll|Programa Rota 2030 CSLL|Numérico|0,00 - 999.999.999.999.999,99|Valor declarado como desonerado em razão do Programa Rota 2030 CSLL;;;;;;;;
+f0000_ano|Ano da ECF|Numérico|0000-9999|Ano da ECF;;;;;;;;
