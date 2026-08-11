@@ -1,0 +1,87 @@
+# ==========================================================
+# .gitignore — Projeto de Estatistica Descritiva (Python)
+# ==========================================================
+
+# --- Credenciais e segredos (NUNCA versionar) ---
+# Arquivos de variaveis de ambiente e chaves de API
+.env
+.env.*
+*.env
+secrets.json
+credentials.json
+config_local.py
+*.key
+*.pem
+*.p12
+*.pfx
+token.txt
+.streamlit/secrets.toml
+
+# --- Ambientes virtuais Python ---
+venv/
+env/
+ENV/
+.venv/
+virtualenv/
+*.virtualenv
+
+# --- Cache e bytecode do Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# --- Ferramentas de teste e cobertura ---
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.cache/
+nosetests.xml
+coverage.xml
+*.cover
+
+# --- Jupyter Notebook ---
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# --- Distribuicao / empacotamento ---
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+
+# --- IDEs e editores ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# --- Sistema operacional ---
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+Desktop.ini
+
+# --- Arquivos temporarios e de log ---
+*.log
+*.tmp
+*.temp
+*.bak
+
+# ==========================================================
+# OBSERVACAO SOBRE DADOS
+# ----------------------------------------------------------
+# Por padrao NAO ignoramos .csv, pois a base do trabalho
+# precisa estar no repositorio. Se algum CSV contiver dados
+# sensiveis ou for muito grande, ignore-o individualmente
+# descomentando e ajustando a linha abaixo:
+#
+# dados_sensiveis.csv
+# ==========================================================
