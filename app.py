@@ -1,0 +1,60 @@
+import streamlit as st
+import sys
+import os
+import matplotlib.pyplot as plt
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
+
+import minhastats as ms
+
+from dados import carregar_dados, variaveis_numericas, variaveis_categoricas, obter_serie_numerica
+
+st.title("Laboratório Estatístico Interativo")
+st.write("Base de Dados: municípios brasileiros — renda, PIB e população")
+
+df = carregar_dados()
+
+st.write(f"A Base de Dados tem {df.shape[0]} linhas e {df.shape[1]} colunas.")
+st.dataframe(df.head(20))
+
+nomes_das_colunas = list(variaveis_numericas.keys())
+coluna_escolhida = st.selectbox("Escolha uma variável numérica:", nomes_das_colunas)
+
+dados_da_coluna = obter_serie_numerica(df, coluna_escolhida)
+
+media_calculada = ms.media(dados_da_coluna)
+mediana_calculada = ms.mediana(dados_da_coluna)
+dp_calculado = ms.desvio_padrao(dados_da_coluna, "amostral")
+
+q1, q2, q3 = ms.quartis(dados_da_coluna)
+moda_calculada = ms.moda(dados_da_coluna)
+amplitude_calculada = ms.amplitude(dados_da_coluna)
+cv_calculado = ms.coeficiente_variacao(dados_da_coluna, "amostral")
+
+coluna1, coluna2, coluna3 = st.columns(3)
+
+with coluna1:
+    st.metric("Média", f"{media_calculada:.2f}")
+    st.metric("Mediana", f"{mediana_calculada:.2f}")
+
+with coluna2:
+    st.metric("Desvio-padrão", f"{dp_calculado:.2f}")
+    st.metric("Coeficiente de variação", f"{cv_calculado:.1f}%")
+
+with coluna3:
+    st.metric("Amplitude", f"{amplitude_calculada:.2f}")
+    st.write("Moda:", moda_calculada)
+
+st.write(f"Quartis: Q1 = {q1:.2f} | Q2 = {q2:.2f} | Q3 = {q3:.2f}")
+st.write("Mediana:", mediana_calculada)
+st.write("Desvio-padrão (amostral):", dp_calculado)
+
+st.subheader("Histograma")
+
+figura, eixo = plt.subplots()
+eixo.hist(dados_da_coluna, bins=30, color="steelblue", edgecolor="white")
+eixo.set_xlabel(coluna_escolhida)
+eixo.set_ylabel("Frequência")
+eixo.set_title(f"Distribuição de {coluna_escolhida}")
+
+st.pyplot(figura)
