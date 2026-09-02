@@ -62,7 +62,7 @@ st.pyplot(figura)
 outliers_encontrados = ms.detectar_outliers(dados_da_coluna)
 
 st.subheader("Detecção de Outliers")
-st.write(f"Foram encontrados **{len(outliers_encontrados)}** outliers, de um total de {len(dados_da_coluna)} observações ({100*len(outliers_encontrados)/len(dados_da_coluna):.1f}%).")
+st.write(f"Foram encontrados {len(outliers_encontrados)} outliers, de um total de {len(dados_da_coluna)} observações ({100*len(outliers_encontrados)/len(dados_da_coluna):.1f}%).")
 
 if len(outliers_encontrados) > 0:
     st.write("Alguns exemplos de valores considerados outliers:")
