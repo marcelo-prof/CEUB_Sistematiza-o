@@ -68,6 +68,17 @@ if len(outliers_encontrados) > 0:
     st.write("Alguns exemplos de valores considerados outliers:")
     st.write(outliers_encontrados[:10])
 
+assimetria_calculada = ms.assimetria(dados_da_coluna)
+
+if assimetria_calculada > 0.5:
+    interpretacao = "assimétrica à direita (cauda longa de valores altos)"
+elif assimetria_calculada < -0.5:
+    interpretacao = "assimétrica à esquerda (cauda longa de valores baixos)"
+else:
+    interpretacao = "aproximadamente simétrica"
+
+st.write(f"**Interpretação automática:** a distribuição de `{coluna_escolhida}` é {interpretacao} (coeficiente de assimetria = {assimetria_calculada:.2f}).")
+
 st.header("Estatística Descritiva — Variáveis Categóricas")
 
 from dados import obter_serie_categorica

@@ -142,3 +142,9 @@ def tabela_frequencias(categorias):
 
     return contagem
 
+def assimetria(dados):
+    m = media(dados)
+    md = mediana(dados)
+    dp = desvio_padrao(dados, "amostral")
+
+    return 3 * (m - md) / dp
