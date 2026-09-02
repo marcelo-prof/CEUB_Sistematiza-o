@@ -77,7 +77,7 @@ elif assimetria_calculada < -0.5:
 else:
     interpretacao = "aproximadamente simétrica"
 
-st.write(f"**Interpretação automática:** a distribuição de `{coluna_escolhida}` é {interpretacao} (coeficiente de assimetria = {assimetria_calculada:.2f}).")
+st.write(f"Interpretação automática: a distribuição de `{coluna_escolhida}` é {interpretacao} (coeficiente de assimetria = {assimetria_calculada:.2f}).")
 
 st.header("Estatística Descritiva — Variáveis Categóricas")
 
