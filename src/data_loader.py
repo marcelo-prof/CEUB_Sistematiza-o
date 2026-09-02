@@ -7,14 +7,14 @@ import pandas as pd
 
 BD = "data/municipios_renda.csv"
 
-VARIAVEIS_NUMERICAS = {
+variaveis_numericas = {
     "populacao": "População do município (habitantes)",
     "renda_media_mensal": "Renda média por mês",
     "pib_anual_mil_reais": "PIB anual em reais",
     "pib_per_capita_reais": "PIB per capita em reais"
 }
 
-VARIAVEIS_CATEGORICAS = {
+variaveis_categoricas = {
     "regiao": "Região",
     "uf": "Sigla do Estado"
 }
