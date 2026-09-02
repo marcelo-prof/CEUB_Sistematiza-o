@@ -114,3 +114,31 @@ def correlacao_pearson(x, y):
     dpy = desvio_padrao(y, "amostral")
 
     return cov / (dpx * dpy)
+
+def detectar_outliers(dados):
+    q1, q2, q3 = quartis(dados)
+
+    iqr = q3 - q1
+
+    limite_inferior = q1 - 1.5 * iqr
+    limite_superior = q3 + 1.5 * iqr
+
+    outliers = []
+
+    for valor in dados:
+        if valor < limite_inferior or valor > limite_superior:
+            outliers.append(valor)
+
+    return outliers
+
+def tabela_frequencias(categorias):
+    contagem = {}
+
+    for categoria in categorias:
+        if categoria in contagem:
+            contagem[categoria] = contagem[categoria] + 1
+        else:
+            contagem[categoria] = 1
+
+    return contagem
+

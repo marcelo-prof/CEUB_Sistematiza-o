@@ -58,3 +58,39 @@ eixo.set_ylabel("Frequência")
 eixo.set_title(f"Distribuição de {coluna_escolhida}")
 
 st.pyplot(figura)
+
+outliers_encontrados = ms.detectar_outliers(dados_da_coluna)
+
+st.subheader("Detecção de Outliers")
+st.write(f"Foram encontrados **{len(outliers_encontrados)}** outliers, de um total de {len(dados_da_coluna)} observações ({100*len(outliers_encontrados)/len(dados_da_coluna):.1f}%).")
+
+if len(outliers_encontrados) > 0:
+    st.write("Alguns exemplos de valores considerados outliers:")
+    st.write(outliers_encontrados[:10])
+
+st.header("Estatística Descritiva — Variáveis Categóricas")
+
+from dados import obter_serie_categorica
+
+nomes_categoricas = list(variaveis_categoricas.keys())
+coluna_cat_escolhida = st.selectbox("Escolha uma variável categórica:", nomes_categoricas)
+
+dados_categoricos = obter_serie_categorica(df, coluna_cat_escolhida)
+frequencias = ms.tabela_frequencias(dados_categoricos)
+
+st.write("Tabela de frequências:")
+st.write(frequencias)
+
+categorias = list(frequencias.keys())
+valores = list(frequencias.values())
+
+st.subheader("Gráfico de barras")
+
+figura3, eixo3 = plt.subplots()
+eixo3.bar(categorias, valores, color="steelblue")
+eixo3.set_xlabel(coluna_cat_escolhida)
+eixo3.set_ylabel("Frequência")
+eixo3.set_title(f"Distribuição de {coluna_cat_escolhida}")
+
+plt.xticks(rotation=90)
+st.pyplot(figura3)
