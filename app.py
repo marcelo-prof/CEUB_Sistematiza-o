@@ -229,7 +229,7 @@ valor_x_digitado = st.number_input(f"Digite um valor de {coluna_x}:", value=medi
 
 valor_y_previsto = b0 + b1 * valor_x_digitado
 
-st.write(f"Predição: para {coluna_x} = {valor_x_digitado:.2f}, o modelo prevê {coluna_y} ≈ {valor_y_previsto:.2f}")
+st.write(f"Predição: para {coluna_x} = {valor_x_digitado:.2f}, o modelo preve {coluna_y} ≈ {valor_y_previsto:.2f}")
 
 st.warning(
     "Atenção: correlação não implica causalidade. O fato de duas variáveis "
