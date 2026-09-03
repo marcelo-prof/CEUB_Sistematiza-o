@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 import minhastats as ms
 
 from dados import carregar_dados, variaveis_numericas, variaveis_categoricas, obter_serie_numerica
+from simulacao import simular_lancamentos_moeda
 
 st.title("Laboratório Estatístico Interativo")
 st.write("Base de Dados: municípios brasileiros — renda, PIB e população")
@@ -46,8 +47,6 @@ with coluna3:
     st.write("Moda:", moda_calculada)
 
 st.write(f"Quartis: Q1 = {q1:.2f} | Q2 = {q2:.2f} | Q3 = {q3:.2f}")
-st.write("Mediana:", mediana_calculada)
-st.write("Desvio-padrão (amostral):", dp_calculado)
 
 st.subheader("Histograma")
 
@@ -79,7 +78,7 @@ else:
 
 st.write(f"Interpretação automática: a distribuição de `{coluna_escolhida}` é {interpretacao} (coeficiente de assimetria = {assimetria_calculada:.2f}).")
 
-st.header("Estatística Descritiva — Variáveis Categóricas")
+st.subheader("Estatística Descritiva - Variáveis Categóricas")
 
 from dados import obter_serie_categorica
 
@@ -105,3 +104,21 @@ eixo3.set_title(f"Distribuição de {coluna_cat_escolhida}")
 
 plt.xticks(rotation=90)
 st.pyplot(figura3)
+
+st.subheader("Lei dos Grandes Números")
+
+numero_lancamentos = st.slider("Número de lançamentos da moeda:", min_value=10, max_value=5000, value=100)
+
+frequencias = simular_lancamentos_moeda(numero_lancamentos)
+
+st.write(f"Frequência relativa de 'cara' após {numero_lancamentos} lançamentos: {frequencias[-1]:.4f}")
+
+figura_lgn, eixo_lgn = plt.subplots()
+eixo_lgn.plot(frequencias)
+eixo_lgn.axhline(y=0.5, color="red", linestyle="--", label="Probabilidade teórica (0.5)")
+eixo_lgn.set_xlabel("Número de lançamentos")
+eixo_lgn.set_ylabel("Frequência relativa de 'cara'")
+eixo_lgn.set_title("Lei dos Grandes Números")
+eixo_lgn.legend()
+
+st.pyplot(figura_lgn)
