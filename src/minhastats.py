@@ -108,7 +108,7 @@ def covariancia(x, y, tipo):
     
     return soma / divisor
 
-def correlacao_pearson(x, y):
+def correlacao(x, y):
     cov = covariancia(x, y, "amostral")
     dpx = desvio_padrao(x, "amostral")
     dpy = desvio_padrao(y, "amostral")
@@ -148,3 +148,27 @@ def assimetria(dados):
     dp = desvio_padrao(dados, "amostral")
 
     return 3 * (m - md) / dp
+
+def regressao_linear(x, y):
+    cov = covariancia(x, y, "amostral")
+    var_x = variancia(x, "amostral")
+
+    b1 = cov / var_x
+    b0 = media(y) - b1 * media(x)
+
+    return b0, b1
+
+def r_quadrado(x, y):
+    r = correlacao(x, y)
+    return r ** 2
+
+if __name__ == "__main__":
+    x_teste = [1, 2, 3, 4, 5]
+    y_teste = [2, 4, 5, 4, 5]
+
+    b0, b1 = regressao_linear(x_teste, y_teste)
+    print("b0 (intercepto) =", b0)
+    print("b1 (inclinação) =", b1)
+
+r2 = r_quadrado(x_teste, y_teste)
+print("R² =", r2)

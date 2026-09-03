@@ -97,11 +97,11 @@ def test_covariancia():
 
     assert math.isclose(resultado_meu, resultado_numpy)
 
-def test_correlacao_pearson():
+def test_correlacao():
     x = [10, 20, 30, 40]
     y = [1000, 1500, 1300, 2000]
 
-    resultado_meu = ms.correlacao_pearson(x, y)
+    resultado_meu = ms.correlacao(x, y)
     resultado_scipy, _ = stats.pearsonr(x, y)
 
     assert math.isclose(resultado_meu, resultado_scipy)
