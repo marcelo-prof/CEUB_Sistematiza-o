@@ -182,3 +182,60 @@ eixo_dist.set_title(f"{coluna_dist}: dados reais vs. {distribuicao_escolhida}")
 eixo_dist.legend()
 
 st.pyplot(figura_dist)
+
+st.subheader("Correlação e Regressão Linear")
+
+nomes_regressao = list(variaveis_numericas.keys())
+
+coluna_x = st.selectbox("Variável X (independente):", nomes_regressao, key="select_x")
+coluna_y = st.selectbox("Variável Y (dependente):", nomes_regressao, key="select_y", index=1)
+
+dados_x = df[coluna_x].tolist()
+dados_y = df[coluna_y].tolist()
+
+b0, b1 = ms.regressao_linear(dados_x, dados_y)
+r2 = ms.r_quadrado(dados_x, dados_y)
+r = ms.correlacao(dados_x, dados_y)
+
+st.write(f"Correlação de Pearson (r): {r:.4f}")
+st.write(f"R² (coeficiente de determinação): {r2:.4f}")
+st.write(f"Equação da reta: ŷ = {b0:.4f} + {b1:.4f} × x")
+
+st.write(f"Interpretação: para cada unidade a mais em `{coluna_x}`, espera-se uma variação de **{b1:.4f}** em `{coluna_y}`, em média.")
+
+st.subheader("Gráfico de dispersão com reta de regressão")
+
+figura_regressao, eixo_regressao = plt.subplots()
+eixo_regressao.scatter(dados_x, dados_y, alpha=0.3, s=10, color="steelblue", label="Municípios")
+
+x_minimo = min(dados_x)
+x_maximo = max(dados_x)
+y_no_minimo = b0 + b1 * x_minimo
+y_no_maximo = b0 + b1 * x_maximo
+
+eixo_regressao.plot([x_minimo, x_maximo], [y_no_minimo, y_no_maximo], color="red", linewidth=2, label="Reta de regressão")
+
+eixo_regressao.set_xlabel(coluna_x)
+eixo_regressao.set_ylabel(coluna_y)
+eixo_regressao.set_title(f"{coluna_y} em função de {coluna_x}")
+eixo_regressao.legend()
+
+st.pyplot(figura_regressao)
+
+st.subheader("Predição interativa")
+
+media_x = ms.media(dados_x)
+valor_x_digitado = st.number_input(f"Digite um valor de {coluna_x}:", value=media_x)
+
+valor_y_previsto = b0 + b1 * valor_x_digitado
+
+st.write(f"Predição: para {coluna_x} = {valor_x_digitado:.2f}, o modelo prevê {coluna_y} ≈ {valor_y_previsto:.2f}")
+
+st.warning(
+    "Atenção: correlação não implica causalidade. O fato de duas variáveis "
+    "estarem correlacionadas não significa necessariamente "
+    "que uma causa a outra diretamente. Pode haver outros fatores em comum "
+    "influenciando as duas (por exemplo, municípios maiores tendem a ter mais "
+    "infraestrutura, comércio e serviços, o que afeta tanto população quanto PIB "
+    "simultaneamente), ou a relação pode ser bem mais complexa do que uma simples reta."
+)

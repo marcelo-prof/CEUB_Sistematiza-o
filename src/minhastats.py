@@ -161,14 +161,3 @@ def regressao_linear(x, y):
 def r_quadrado(x, y):
     r = correlacao(x, y)
     return r ** 2
-
-if __name__ == "__main__":
-    x_teste = [1, 2, 3, 4, 5]
-    y_teste = [2, 4, 5, 4, 5]
-
-    b0, b1 = regressao_linear(x_teste, y_teste)
-    print("b0 (intercepto) =", b0)
-    print("b1 (inclinação) =", b1)
-
-r2 = r_quadrado(x_teste, y_teste)
-print("R² =", r2)
