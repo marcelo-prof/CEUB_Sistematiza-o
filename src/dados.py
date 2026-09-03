@@ -1,8 +1,3 @@
-"""
-data_loader.py — Módulo 0: Dados Reais
-Carrega o dataset de municípios (renda, PIB, população).
-"""
-
 import pandas as pd
 
 BD = "data/municipios_renda.csv"
