@@ -1,5 +1,6 @@
 import random
 
+from minhastats import media
 
 def simular_lancamentos_moeda(numero_de_lancamentos):
     caras_ate_agora = 0
@@ -16,7 +17,12 @@ def simular_lancamentos_moeda(numero_de_lancamentos):
 
     return frequencias_ao_longo_do_tempo
 
-if __name__ == "__main__":
-    resultado = simular_lancamentos_moeda(1000)
-    print("Frequência após 10 lançamentos:", resultado[9])
-    print("Frequência após 1000 lançamentos:", resultado[999])
+def simular_teorema_central_limite(populacao_de_dados, tamanho_da_amostra, numero_de_repeticoes):
+    medias_das_amostras = []
+
+    for i in range(numero_de_repeticoes):
+        amostra = random.choices(populacao_de_dados, k=tamanho_da_amostra)
+        media_da_amostra = media(amostra)
+        medias_das_amostras.append(media_da_amostra)
+
+    return medias_das_amostras

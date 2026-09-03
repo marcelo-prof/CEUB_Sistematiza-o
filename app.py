@@ -9,6 +9,7 @@ import minhastats as ms
 
 from dados import carregar_dados, variaveis_numericas, variaveis_categoricas, obter_serie_numerica
 from simulacao import simular_lancamentos_moeda
+from simulacao import simular_lancamentos_moeda, simular_teorema_central_limite
 
 st.title("Laboratório Estatístico Interativo")
 st.write("Base de Dados: municípios brasileiros — renda, PIB e população")
@@ -122,3 +123,31 @@ eixo_lgn.set_title("Lei dos Grandes Números")
 eixo_lgn.legend()
 
 st.pyplot(figura_lgn)
+
+st.subheader("Teorema Central do Limite")
+
+nomes_numericas_tcl = list(variaveis_numericas.keys())
+coluna_tcl = st.selectbox("Escolha uma variável para o TCL:", nomes_numericas_tcl)
+
+dados_populacao_tcl = obter_serie_numerica(df, coluna_tcl)
+
+tamanho_amostra = st.slider("Tamanho de cada amostra:", min_value=2, max_value=200, value=30)
+numero_repeticoes = st.slider("Número de repetições (quantas amostras sortear):", min_value=100, max_value=5000, value=1000)
+
+medias_amostrais = simular_teorema_central_limite(dados_populacao_tcl, tamanho_amostra, numero_repeticoes)
+
+coluna_esquerda, coluna_direita = st.columns(2)
+
+with coluna_esquerda:
+    st.write("Distribuição ORIGINAL (população completa):")
+    figura_original, eixo_original = plt.subplots()
+    eixo_original.hist(dados_populacao_tcl, bins=30, color="steelblue", edgecolor="white")
+    eixo_original.set_title(f"{coluna_tcl} (original)")
+    st.pyplot(figura_original)
+
+with coluna_direita:
+    st.write("Distribuição das MÉDIAS AMOSTRAIS:")
+    figura_medias, eixo_medias = plt.subplots()
+    eixo_medias.hist(medias_amostrais, bins=30, color="darkorange", edgecolor="white")
+    eixo_medias.set_title(f"Médias de amostras (n={tamanho_amostra})")
+    st.pyplot(figura_medias)
