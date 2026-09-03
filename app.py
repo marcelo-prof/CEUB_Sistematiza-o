@@ -5,11 +5,13 @@ import matplotlib.pyplot as plt
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
+import numpy as np
 import minhastats as ms
 
 from dados import carregar_dados, variaveis_numericas, variaveis_categoricas, obter_serie_numerica
 from simulacao import simular_lancamentos_moeda
 from simulacao import simular_lancamentos_moeda, simular_teorema_central_limite
+from distribuicoes import ajustar_normal, densidade_normal, ajustar_exponencial, densidade_exponencial
 
 st.title("Laboratório Estatístico Interativo")
 st.write("Base de Dados: municípios brasileiros — renda, PIB e população")
@@ -151,3 +153,32 @@ with coluna_direita:
     eixo_medias.hist(medias_amostrais, bins=30, color="darkorange", edgecolor="white")
     eixo_medias.set_title(f"Médias de amostras (n={tamanho_amostra})")
     st.pyplot(figura_medias)
+
+st.subheader("Distribuições Teóricas")
+
+nomes_dist = list(variaveis_numericas.keys())
+coluna_dist = st.selectbox("Escolha uma variável:", nomes_dist, key="selectbox_distribuicoes")
+
+dados_dist = obter_serie_numerica(df, coluna_dist)
+
+distribuicao_escolhida = st.radio("Distribuição teórica:", ["Normal", "Exponencial"])
+
+figura_dist, eixo_dist = plt.subplots()
+eixo_dist.hist(dados_dist, bins=40, density=True, color="steelblue", edgecolor="white", alpha=0.7, label="Dados reais")
+
+pontos_x = np.linspace(min(dados_dist), max(dados_dist), 200)
+
+if distribuicao_escolhida == "Normal":
+    mu, sigma = ajustar_normal(dados_dist)
+    pontos_y = [densidade_normal(x, mu, sigma) for x in pontos_x]
+    st.write(f"Parâmetros estimados: μ (média) = {mu:.2f}, σ (desvio-padrão) = {sigma:.2f}")
+else:
+    taxa = ajustar_exponencial(dados_dist)
+    pontos_y = [densidade_exponencial(x, taxa) for x in pontos_x]
+    st.write(f"Parâmetro estimado: λ (taxa) = {taxa:.6f}")
+
+eixo_dist.plot(pontos_x, pontos_y, color="red", linewidth=2, label=f"{distribuicao_escolhida} ajustada")
+eixo_dist.set_title(f"{coluna_dist}: dados reais vs. {distribuicao_escolhida}")
+eixo_dist.legend()
+
+st.pyplot(figura_dist)
