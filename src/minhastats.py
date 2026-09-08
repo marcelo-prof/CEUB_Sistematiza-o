@@ -1,14 +1,30 @@
 import math
 
+#limitar as casas decimais
+def filtrar_dados(dados, num: int):
+    match num:
+        case 0:
+            return int(dados)
+        case 1:
+            return math.floor(dados * 10) / 10
+        case 2:
+            return math.floor(dados * 100) / 100
+        case 3:
+            return math.floor(dados * 1000) / 1000
+        case _:
+            return dados
+
+# -------------------------------------------------------------------- #
+# medida de posição central
 def media(dados):
-    
     soma = 0
     for i in dados:
         soma = soma + i
-    
     media_calculada = soma / len(dados)
-    return media_calculada
+    return float(media_calculada)
 
+
+# medida de posição central
 def mediana(dados):
     dados_ordenados = sorted(dados)
     n = len(dados_ordenados)
@@ -17,9 +33,10 @@ def mediana(dados):
         valor_mediana = (dados_ordenados[n // 2 - 1] + dados_ordenados[n // 2]) / 2
     else:
         valor_mediana = dados_ordenados[n // 2]
+    return float(valor_mediana)
 
-    return valor_mediana
 
+# medida de posição central
 def moda(dados):
     contagem = {}
 
@@ -28,42 +45,47 @@ def moda(dados):
             contagem[i] = contagem[i] + 1
         else:
             contagem[i] = 1
-    
     maior_frequencia = max(contagem.values())
-
     moda = []
 
     for chave, valor in contagem.items():
         if valor == maior_frequencia:
             moda.append(chave)
-    
     return moda
 
+
+# -------------------------------------------------------------------- #
+# medida de dispersão
 def amplitude(dados):
     valor_amplitude = max(dados) - min(dados)
-
     return valor_amplitude
 
-def variancia(dados, tipo):
+
+# medida de dispersão
+def variancia(dados: list, populacional: bool = True) -> float:
     m = media(dados)
-    
-    soma_quadrados = 0
-
-    for i in dados:
-        soma_quadrados = soma_quadrados + (i - m) ** 2
-    
-    if tipo == "populacional":
-        divisor = len(dados)
+    soma = sum((x - m) ** 2 for x in dados)
+    if populacional:
+        return soma / len(dados)
     else:
-        divisor = len(dados) - 1
-    
-    return soma_quadrados / divisor
+        return soma / (len(dados) - 1)
 
-def desvio_padrao(dados, tipo):
-    v = variancia(dados, tipo)
 
-    return math.sqrt(v)
+# medida de dispersão
+def desvio_padrao(dados: list, populacional: bool = True) -> float:
+    return math.sqrt(variancia(dados, populacional))
 
+
+
+# medida de dispersão 
+def coeficiente_variacao(dados: list, populacional: bool = True) -> float:
+    dp = desvio_padrao(dados, populacional)
+    m = media(dados)
+    return (dp / m) * 100
+# -------------------------------------------------------------------- #
+
+
+# medida de posição
 def percentil(dados, p):
     dados_ordenados = sorted(dados)
     n = len(dados_ordenados)
@@ -74,46 +96,46 @@ def percentil(dados, p):
     teto = math.ceil(posicao)
 
     if piso == teto:
-        return dados_ordenados[int(piso)]
-    
+        return float(dados_ordenados[int(piso)])
     fracao = posicao - piso
-    return dados_ordenados[piso] + fracao * (dados_ordenados[teto] - dados_ordenados[piso])
+    return float(dados_ordenados[piso] + fracao * (dados_ordenados[teto] - dados_ordenados[piso]))
 
+
+# medida de posição
 def quartis(dados):
-    q1 = percentil(dados, 25)
-    q2 = percentil(dados, 50)
-    q3 = percentil(dados, 75)
-
+    q1 = float(percentil(dados, 25))
+    q2 = float(mediana(dados))  # Reutilizando a função mediana
+    q3 = float(percentil(dados, 75))
+    
     return q1, q2, q3
+# -------------------------------------------------------------------- #
 
-def coeficiente_variacao(dados, tipo):
-    dp = desvio_padrao(dados, tipo)
-    m = media(dados)
 
-    return (dp / m) * 100
-
-def covariancia(x, y, tipo):
+# medida de associação
+def covariancia(x: list, y: list, populacional: bool = True) -> float:
     mx = media(x)
     my = media(y)
-
     soma = 0
 
     for xi, yi in zip(x, y):
         soma = soma + (xi - mx) * (yi - my)
-    
-    if tipo == "populacional":
+
+    if populacional:
         divisor = len(x)
     else:
         divisor = len(x) - 1
-    
+        
     return soma / divisor
 
-def correlacao(x, y):
-    cov = covariancia(x, y, "amostral")
-    dpx = desvio_padrao(x, "amostral")
-    dpy = desvio_padrao(y, "amostral")
 
+# medida de associação
+def correlacao(x, y):
+    cov = covariancia(x, y, populacional=False)
+    dpx = desvio_padrao(x, populacional=False)
+    dpy = desvio_padrao(y, populacional=False)
     return cov / (dpx * dpy)
+# -------------------------------------------------------------------- #
+
 
 def detectar_outliers(dados):
     q1, q2, q3 = quartis(dados)
@@ -128,8 +150,8 @@ def detectar_outliers(dados):
     for valor in dados:
         if valor < limite_inferior or valor > limite_superior:
             outliers.append(valor)
-
     return outliers
+
 
 def tabela_frequencias(categorias):
     contagem = {}
@@ -139,24 +161,26 @@ def tabela_frequencias(categorias):
             contagem[categoria] = contagem[categoria] + 1
         else:
             contagem[categoria] = 1
-
     return contagem
+
 
 def assimetria(dados):
     m = media(dados)
     md = mediana(dados)
-    dp = desvio_padrao(dados, "amostral")
+    dp = desvio_padrao(dados, False)
 
     return 3 * (m - md) / dp
 
+
 def regressao_linear(x, y):
-    cov = covariancia(x, y, "amostral")
-    var_x = variancia(x, "amostral")
+    cov = covariancia(x, y, False)
+    var_x = variancia(x, False)
 
     b1 = cov / var_x
     b0 = media(y) - b1 * media(x)
 
     return b0, b1
+
 
 def r_quadrado(x, y):
     r = correlacao(x, y)
