@@ -1,53 +1,87 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import minhastats as ms 
+import csv
+import os
+import minhastats as ms
+
 
 
 st.title("Laboratório Estatístico Interativo")
 
-# Upload de arquivo
-arquivo = st.file_uploader("Carregue seu dataset (CSV)", type=["csv"])
+arquivo = st.file_uploader(
+    "Carregue seu dataset",
+    type=["csv", "xlsx", "json"]
+)
 
-
-# teste se o arquivo é compatível com a aplicação
 if arquivo is not None:
-    try:
-        # Tentativa de leitura como CSV com separador ";"
-        df = pd.read_csv(arquivo, sep=";")
-    except pd.errors.ParserError:
-        try:
-            # Tentativa de leitura como CSV com separador ","
-            df = pd.read_csv(arquivo, sep=",")
-        except pd.errors.ParserError:
-            try:
-                # Tentativa de leitura como Excel
-                df = pd.read_excel(arquivo)
-            except Exception:
-                try:
-                    # Tentativa de leitura como JSON
-                    df = pd.read_json(arquivo)
-                except Exception as e:
-                    st.error(f"Não foi possível ler o arquivo: {e}")
-                    df = None
-  
-    if df is not None:
-        st.write("Pré-visualização dos dados:")
-        st.dataframe(df.head())
-# --------------------------------------------------------------------------- #
 
+    nome_arquivo = arquivo.name.lower()
+    extensao = os.path.splitext(nome_arquivo)[1]
+
+    try:
+
+        # CSV
+        if extensao == ".csv":
+            # Lê uma amostra para tentar detectar o separador
+            sample = arquivo.read(4096).decode("utf-8", errors="ignore")
+            arquivo.seek(0)
+
+            try:
+                dialect = csv.Sniffer().sniff(sample, delimiters=",;\t|")
+                sep_detectado = dialect.delimiter
+
+            except csv.Error:
+                # Caso o Sniffer não consiga detectar
+                # tenta os separadores mais comuns
+                st.warning(
+                    "Não foi possível detectar automaticamente "
+                    "o separador. Tentando ';'."
+                )
+                sep_detectado = ";"
+
+            arquivo.seek(0)
+
+            df = pd.read_csv(arquivo, sep=sep_detectado, encoding="utf-8")
+
+        # Excel
+        elif extensao == ".xlsx":df = pd.read_excel(arquivo)
+
+        # JSON
+        elif extensao == ".json":df = pd.read_json(arquivo)
+
+        else:
+            st.error("Formato de arquivo não suportado.")
+            df = None
+
+        # Resultado
+        if df is not None:
+
+            st.success(
+                f"Arquivo lido com sucesso! "
+                f"Número de colunas: {df.shape[1]}"
+            )
+
+            st.write("Pré-visualização dos dados:")
+            st.dataframe(df.head())
+
+    except Exception as e:
+
+        st.error(f"Não foi possível ler o arquivo: {e}")
+# --------------------------------------------------------------------------- #
+        
 # Escolha da coluna
-        coluna = st.selectbox("Escolha uma coluna:", df.select_dtypes(include="number").columns)
-        if coluna:
+    coluna = st.selectbox("Escolha uma coluna:", df.select_dtypes(include="number").columns)
+    if coluna:
 # Verifica o tipo de dados da coluna
     
-            if pd.api.types.is_numeric_dtype(df[coluna]): #coluna contêm dados quantitativos
-                valores = df[coluna].dropna().tolist()
-                categorico = False
-            else: # coluna contêm dados qualitativos
-                st.write(df[coluna].value_counts()) 
-                categorico = True
-                st.alert("coluna composta por dados categóricos")
+        if pd.api.types.is_numeric_dtype(df[coluna]): #coluna contêm dados quantitativos
+            valores = df[coluna].dropna().tolist()
+            categorico = False
+        else: # coluna contêm dados qualitativos
+            st.write(df[coluna].value_counts()) 
+            categorico = True
+            st.alert("coluna composta por dados categóricos")
 
 
 # Menu de escolha do tipo de estatística
