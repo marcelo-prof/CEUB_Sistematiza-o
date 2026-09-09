@@ -14,6 +14,12 @@ def filtrar_dados(dados, num: int):
         case _:
             return dados
 
+
+def soma_total(dados):
+    num = 0
+    for i in dados:
+        num += i
+    return num
 # -------------------------------------------------------------------- #
 # medida de posição central
 def media(dados):
