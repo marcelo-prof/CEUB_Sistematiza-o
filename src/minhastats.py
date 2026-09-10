@@ -1,7 +1,10 @@
 import math
+import pandas as pd
+import numpy as np 
+import random
 
 #limitar as casas decimais
-def filtrar_dados(dados, num: int):
+def truncar_dados(dados, num: int):
     match num:
         case 0:
             return int(dados)
@@ -191,3 +194,75 @@ def regressao_linear(x, y):
 def r_quadrado(x, y):
     r = correlacao(x, y)
     return r ** 2
+
+# -------------------------------------------------------------------- #
+
+def obter_serie_num(df, coluna):
+    return df[coluna].dropna().astype(float).tolist()
+
+
+def obter_serie_cat(df, coluna):
+    return df[coluna].dropna().astype(str).tolist()
+
+
+# -------------------------------------------------------------------- #
+
+def densidade_normal(x, mu, sigma):
+    parte1 = 1 / (sigma * math.sqrt(2 * math.pi))
+    parte2 = math.exp(-((x - mu) ** 2) / (2 * sigma ** 2))
+    return parte1 * parte2
+
+def ajustar_normal(dados):
+    mu = media(dados)
+    sigma = desvio_padrao(dados, False)
+    return mu, sigma
+
+def densidade_exponencial(x, taxa_lambda):
+    # Calcula a altura da curva Exponencial(lambda) no ponto x. 
+    if x < 0:
+        return 0
+    return taxa_lambda * math.exp(-taxa_lambda * x)
+
+def ajustar_exponencial(dados):
+    m = media(dados)
+    taxa_lambda = 1 / m
+    return taxa_lambda
+
+# -------------------------------------------------------------------- #
+
+
+#simulação lançamento de moedas
+def simular_lanca_moedas(numero_de_lancamentos):
+    caras_ate_agora = 0
+    frequencias_ao_longo_do_tempo = []
+
+    for i in range(1, numero_de_lancamentos + 1):
+        resultado = random.choice(["cara", "coroa"])
+
+        if resultado == "cara":
+            caras_ate_agora = caras_ate_agora + 1
+
+        frequencia_atual = caras_ate_agora / i
+        frequencias_ao_longo_do_tempo.append(frequencia_atual)
+
+    return frequencias_ao_longo_do_tempo
+
+
+# simulação teoria central do limite
+def simular_tcl(populacao_de_dados, tamanho_da_amostra, numero_de_repeticoes):
+
+    medias_das_amostras = []
+
+    for i in range(numero_de_repeticoes):
+
+        amostra = np.random.choice(
+            populacao_de_dados,
+            size=tamanho_da_amostra,
+            replace=True
+        )
+
+        media_da_amostra = media(amostra)
+
+        medias_das_amostras.append(media_da_amostra)
+
+    return medias_das_amostras
